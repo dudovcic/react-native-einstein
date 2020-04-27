@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
+  StatusBar,
 } from 'react-native';
 import * as Font from 'expo-font';
 import Einstein from './components/Einstein';
@@ -46,64 +47,84 @@ export default function App() {
     );
   }
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('./assets/images/einstein/bg.jpg')}
-        style={{
-          flex: 0.6,
-          width: '100%',
-          paddingTop: 15,
-          position: 'relative',
-        }}
-      >
-        <View style={styles.backContainerOuter}>
-          <TouchableOpacity style={styles.backContainerInner}>
+    <>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.container}>
+        <ImageBackground
+          source={require('./assets/images/einstein/bg.jpg')}
+          style={{
+            flex: 0.555,
+            width: '100%',
+            paddingTop: 15,
+            position: 'relative',
+          }}
+        >
+          <View style={styles.backContainerOuter}>
+            <TouchableOpacity style={styles.backContainerInner}>
+              <Image
+                resizeMode="contain"
+                style={{ height: '50%', marginRight: 5 }}
+                source={require('./assets/images/back-icon.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.coinsContainer}
+              onPress={() => setModalOpen(true)}
+            >
+              <AsparagusText style={styles.coinsText}>130</AsparagusText>
+              <Image
+                resizeMode="contain"
+                style={{ height: '190%', width: 30 }}
+                source={require('./assets/images/coins.png')}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.einsteinContainer}>
+            <Einstein resizeMode="stretch" style={styles.einstein} />
+          </View>
+          <View style={styles.starsContainer}>
+            <Stars />
+          </View>
+          <View style={styles.energyContainer}>
             <Image
-              style={{ height: '40%', width: '30%', marginRight: 5 }}
-              source={require('./assets/images/back-icon.png')}
+              resizeMode="contain"
+              style={{ height: 100, width: 30 }}
+              source={require('./assets/images/energy-full.png')}
             />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.coinsContainer}
-            onPress={() => setModalOpen(true)}
-          >
-            <AsparagusText style={styles.coinsText}>130</AsparagusText>
-            <Image
-              style={{ height: '50%', width: 30 }}
-              source={require('./assets/images/coins.png')}
-            />
-          </TouchableOpacity>
+          </View>
+        </ImageBackground>
+        <View style={{ flex: 0.475, width: '100%' }}>
+          <View style={{ marginTop: 'auto', marginBottom: 10 }}>
+            {questions.map((q, key) => (
+              <>
+                {
+                  <View
+                    style={{ paddingHorizontal: key === 0 ? undefined : 20 }}
+                  >
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: 'black',
+                        opacity: 0.1,
+                      }}
+                    />
+                  </View>
+                }
+                <View key={key} style={styles.questionContainer}>
+                  <Question styles={{ color: colors.PINK }}>{q}</Question>
+                </View>
+              </>
+            ))}
+          </View>
         </View>
-        <View style={styles.einsteinContainer}>
-          <Einstein resizeMode="stretch" style={styles.einstein} />
-        </View>
-        <View style={styles.starsContainer}>
-          <Stars />
-        </View>
-        <View style={styles.energyContainer}>
-          <Image
-            resizeMode="contain"
-            style={{ height: 100, width: 30 }}
-            source={require('./assets/images/energy-full.png')}
-          />
-        </View>
-      </ImageBackground>
-      <View style={{ flex: 0.4, width: '100%' }}>
-        <View style={{ marginTop: 'auto', marginBottom: 20 }}>
-          {questions.map((q) => (
-            <View style={styles.questionContainer}>
-              <Question>{q}</Question>
-            </View>
-          ))}
-        </View>
+        <Modal
+          show={modalOpen}
+          onClose={() => setModalOpen(false)}
+          inputValue={url || ''}
+          onChange={setUrl}
+        />
       </View>
-      <Modal
-        show={modalOpen}
-        onClose={() => setModalOpen(false)}
-        inputValue={url || ''}
-        onChange={setUrl}
-      />
-    </View>
+    </>
   );
 }
 
@@ -134,8 +155,8 @@ const styles = StyleSheet.create({
   backContainerOuter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 30,
-    height: 45,
+    marginTop: 10,
+    height: 40,
     zIndex: 33,
   },
   backContainerInner: {
@@ -143,7 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderTopRightRadius: 5,
-    width: 40,
+    width: 35,
     borderBottomRightRadius: 5,
   },
   coinsText: {
@@ -171,9 +192,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   questionContainer: {
-    borderTopColor: 'black',
-    borderTopWidth: 0.3,
-    paddingVertical: 10,
+    paddingVertical: 14,
     paddingHorizontal: 20,
   },
 });

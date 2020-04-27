@@ -23,8 +23,7 @@ const Question = (props: Props) => (
 
 const styles = StyleSheet.create({
   question: {
-    fontSize: 34,
-    color: 'blue',
+    fontSize: 22,
   },
 });
 

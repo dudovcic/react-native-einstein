@@ -1,3 +1,3 @@
 export const colors = {
-  PINK: '#9351c2',
+  PINK: '#776FF3',
 };
